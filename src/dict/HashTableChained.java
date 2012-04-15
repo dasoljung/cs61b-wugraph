@@ -43,6 +43,17 @@ public class HashTableChained implements Dictionary {
     // Your solution here.
   }
   
+  
+  /**
+   * 
+   * @return length of the hash table.
+   */
+  public int length() {
+	return table.length;
+  }
+  
+  
+  
   private static int aPrime(int n, int lower) {
 	  boolean[] prime = new boolean[n+1];
 	  int i;
@@ -426,6 +437,7 @@ public class HashTableChained implements Dictionary {
 	System.out.println(x.find(12));
 	**/
   }
+
   
   
 }

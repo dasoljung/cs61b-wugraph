@@ -41,17 +41,37 @@ public class Kruskal {
 			  }
 		  }
 	  }
+	  
 	  quicksort(edges, 0, edges.length - 1); // sorts "edges" array
 	  
-	  HashTableChained treeHash = new HashTableChained(edges.length);
-	  DisjointSets set = new DisjointSets(edges.length);
+	  HashTableChained treeHash = new HashTableChained(edges.length);	// adds all min edges to graph t.
+	  DisjointSets set = new DisjointSets(treeHash.length());
 	  for (EdgeWeight ed: edges) {
-		  
+		  int a = compFunction(ed.vertex1().hashCode(), treeHash.length());
+		  int b = compFunction(ed.vertex2().hashCode(), treeHash.length());
+		  if (set.find(a)!=set.find(b)) {
+			  t.addEdge(ed.vertex1(), ed.vertex2(), ed.weight());
+			  set.union(set.find(a),set.find(b));
+		  }
 	  }
 	  
-	  
-	  
 	  return t;
+  }
+  
+
+  private static int compFunction(int code, int mod) {	// code(i) = (((ai+b) mod p) mod N)
+	int p = 16908799;
+	int a = 27947;
+	int b = 2100001;
+	return modulus(modulus(a*code + b, p), mod);
+    // Replace the following line with your solution.
+  }
+  
+  private static int modulus(int x, int n) {	// x mod n
+	  while (x < 0) {
+		  x = x + n;
+	  }
+	  return x % n;
   }
   
   
@@ -81,6 +101,6 @@ public class Kruskal {
 	    quicksort(a, low, i - 1);                     // Recursively sort left list
 	    quicksort(a, i + 1, high);                   // Recursively sort right list
 	  }
-	}
+  }
 
 }
