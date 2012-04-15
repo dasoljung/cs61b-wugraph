@@ -2,6 +2,8 @@
 
 import java.util.Hashtable;
 
+import list.SList;
+
 import dict.HashTableChained;
 import graph.*;
 import set.*;
@@ -44,11 +46,11 @@ public class Kruskal {
 	  
 	  quicksort(edges, 0, edges.length - 1); // sorts "edges" array
 	  
-	  HashTableChained treeHash = new HashTableChained(edges.length);	// adds all min edges to graph t.
-	  DisjointSets set = new DisjointSets(treeHash.length());
+	  int s = findSize(vertices.length);
+	  DisjointSets set = new DisjointSets(s); // adds all min edges to graph t.
 	  for (EdgeWeight ed: edges) {
-		  int a = compFunction(ed.vertex1().hashCode(), treeHash.length());
-		  int b = compFunction(ed.vertex2().hashCode(), treeHash.length());
+		  int a = compFunction(ed.vertex1().hashCode(), s);
+		  int b = compFunction(ed.vertex2().hashCode(), s);
 		  if (set.find(a)!=set.find(b)) {
 			  t.addEdge(ed.vertex1(), ed.vertex2(), ed.weight());
 			  set.union(set.find(a),set.find(b));
@@ -56,6 +58,42 @@ public class Kruskal {
 	  }
 	  
 	  return t;
+  }
+  
+  
+  
+  public static int findSize(int sizeEstimate) {
+		// .5<= n/N <=1; N = # of buckets; n = sizeEstimate
+	int lowerBound = 3*sizeEstimate / 2; // lower bound of 200 = 101; 199 = 100;
+	int upperBound = 2 * sizeEstimate;
+	return aPrime(upperBound, lowerBound);
+  }
+  
+  private static int aPrime(int n, int lower) {
+	  boolean[] prime = new boolean[n+1];
+	  int i;
+	  for (i=2; i <= n; i++) {
+		  prime[i] = true;
+	  }
+	  for (int divisor = 2; divisor * divisor <= n; divisor++) {
+		  if (prime[divisor]) {
+			  for (i = 2 * divisor; i <= n; i = i + divisor) {
+				  prime[i] = false;
+			  }
+		  }
+	  }
+	  
+	  for (int index = lower; index < n; index++) {
+		  if (prime[index] == true) {
+			  return index;
+		  }
+	  }
+	  for (int index = lower; index > 2; index--) {
+		  if (prime[index] == true) {
+			  return index;
+		  }
+	  }
+	  return 0;
   }
   
 
