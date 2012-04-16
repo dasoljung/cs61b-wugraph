@@ -11,6 +11,7 @@ import java.util.Hashtable;
 
 public class WUGraph {
 
+	
   /**
    * WUGraph() constructs a graph having no vertices or edges.
    *
@@ -57,7 +58,9 @@ public class WUGraph {
    *
    * Running time:  O(1).
    */
-  public void addVertex(Object vertex){};
+  public void addVertex(Object vertex){
+	  
+  }
 
   /**
    * removeVertex() removes a vertex from the graph.  All edges incident on the
